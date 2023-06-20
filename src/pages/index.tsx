@@ -3,27 +3,8 @@ import { getAllArticle } from '@/querys/getAllArticle'
 import { ArticleRevista } from '@/components/Article';
 import {FechtData} from '../types/types';
 
-export async function getStaticProps(){
-  await fetch("http://localhost:3000/api/Usuarios", {
-    headers: {
-      Authorization: `Usuarios API-Key ${process.env.NEXT_API_KEY}`,
-    },
-  });
 
-  const {data: DataArticle, loading: LoadingArticle} = await getAllArticle
-
-  return{
-    props:{
-      ArticleData: {
-        DataArticle,
-        LoadingArticle
-      }
-    },
-    revalidate: 10,
-  }
-};
-
-export default function Home({ArticleData}:any) {
+function Home({ArticleData}:any) {
 
   let DataRevista = ArticleData.DataArticle.RevistaContents.docs
   let DataRevistaReverse = [...DataRevista].reverse()
@@ -51,7 +32,7 @@ export default function Home({ArticleData}:any) {
       <main className='flex items-center flex-col justify-center bg-cover bg-fixed bg-white md:bg-logo-pattern'>
         <div className='w-full xl:w-[75%]'>
           { 
-              DataRevistaReverse.map((element:FechtData, id:Number)=> {
+              DataRevistaReverse.map((element:FechtData)=> {
                 return (
                   <div key={element.id} className="shadow-xl my-2">
                     <ArticleRevista 
@@ -75,3 +56,28 @@ export default function Home({ArticleData}:any) {
     </>
   )
 }
+
+export async function getServerSideProps(context:any){
+
+  
+  context.res.setHeader("Cache-Control", 'public, s-maxage=10, stale-while-revalidate=59');
+
+  await fetch("https://panel.rendezvouscorp.com/api/Usuarios", {
+    headers: {
+      Authorization: `Usuarios API-Key ${process.env.NEXT_API_KEY}`,
+    },
+  });
+
+  const {data: DataArticle, loading: LoadingArticle} = await getAllArticle
+  
+  return{
+    props:{
+      ArticleData: {
+        DataArticle,
+        LoadingArticle
+      }
+    }
+  };
+}
+
+export default Home

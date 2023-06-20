@@ -30,5 +30,6 @@ export const getAllArticle = client.query({
           }
         }
       }
-    }`
+    }`,
+    fetchPolicy: 'no-cache'
 })

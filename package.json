@@ -6,7 +6,8 @@
     "dev": "next dev -p 3012",
     "build": "next build",
     "start": "next start -p 3012",
-    "lint": "next lint"
+    "lint": "next lint",
+    "pm2": "pm2-runtime start npm --name 'revista' --cron '*/15 * * * *' -- start"
   },
   "dependencies": {
     "@apollo/client": "^3.7.5",
@@ -21,6 +22,7 @@
     "eslint-config-next": "13.1.6",
     "graphql": "^16.6.0",
     "next": "13.1.6",
+    "pm2": "^5.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-player": "^2.11.0",
