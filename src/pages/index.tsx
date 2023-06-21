@@ -3,8 +3,11 @@ import { getAllArticle } from '@/querys/getAllArticle'
 import { ArticleRevista } from '@/components/Article';
 import {FechtData} from '../types/types';
 
-export async function getStaticProps(){
-  await fetch("http://localhost:3000/api/Usuarios", {
+export async function getServerSideProps(context:any){
+
+  context.res.setHeader("Cache-Control", "Public, s-maxage=10, stale-while-revalidate=59")
+
+  await fetch("https://panel.rendezvouscorp.com/api/Usuarios", {
     headers: {
       Authorization: `Usuarios API-Key ${process.env.NEXT_API_KEY}`,
     },
@@ -18,8 +21,7 @@ export async function getStaticProps(){
         DataArticle,
         LoadingArticle
       }
-    },
-    revalidate: 10,
+    }
   }
 };
 
@@ -38,7 +40,6 @@ export default function Home({ArticleData}:any) {
           content="Revista RendezVous Segunda Edicion 2022"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
         <meta property="og:url" content="https://revista.rendezvouscorp.com" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="RENDEZVOUS VOL.2" />
