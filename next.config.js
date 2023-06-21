@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['localhost', 'youtube', 'rendezvouscorp', 'panel.rendezvouscorp.com'],
+    domains: ['localhost', 'youtube', 'panel.rendezvouscorp.com'],
     remotePatterns: [
       {
         protocol: 'http',
@@ -13,8 +13,8 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'panel.rendezvouscorp.com',
-        port: '',
-        pathname: '/media/*'
+        port: '443',
+        pathname: '/*'
       }
     ],
     minimumCacheTTL: 60,
